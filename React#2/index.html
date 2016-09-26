@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>React project #2</title>
+    <link href="css/reset.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
+</head>
+<body>
+	<h1>Camper Leaderboard</h1>
+    <div id='content'></div>
+
+    <script type="text/babel">
+    	var url30 = "https://fcctop100.herokuapp.com/api/fccusers/top/recent";
+    	var urlAll = "https://fcctop100.herokuapp.com/api/fccusers/top/alltime";
+    	var isRecent = true;
+
+        var Tablerow = React.createClass({
+            render: function() {
+                return (
+                    <tr>
+                    	<td className = "username">{this.props.username}</td>
+                    	<td>{this.props.recent}</td>
+                    	<td>{this.props.alltime}</td>
+                    </tr>
+                );
+            }
+        });
+
+        var ScoreButton = React.createClass({
+        	getInitialState: function(){
+				return {
+					recent: this.props.recent
+				}
+        	},
+        	handleClick: function(e){
+        		isRecent = !isRecent;
+				this.props.onLoad(isRecent);
+        	},
+        	render: function(){
+        		return (
+					<a href="#" onClick={this.props.recent !== isRecent ? this.handleClick : ""}>{this.props.name}</a>
+        		);
+        	}
+        });
+		
+		var Table = React.createClass({
+			getInitialState: function() {
+			    return {
+			    	data: []
+			    };
+			},
+			componentDidMount: function(){
+				this.loadData(url30);
+			},
+			loadData: function(url){
+				$.ajax({
+			      	url: url,
+			      	dataType: 'json',
+			      	cache: false,
+			      	success: function(data) {
+			        	this.setState({data: data});
+			      	}.bind(this),
+			      	error: function(xhr, status, err) {
+			        	console.error(url30, status, err.toString());
+			      	}.bind(this)
+			    });
+			},
+			handleOnLoad: function(isRecent){
+				if (isRecent) {
+					this.loadData(url30)
+				} else {
+					this.loadData(urlAll)
+				}
+			},
+			render: function(){
+				var rowsData = this.state.data;
+				var rows = rowsData.map(function(item, index, array){
+					return <Tablerow username = {item.username} recent = {item.recent} alltime = {item.alltime} key = {index}/>
+				});
+				return (
+					<table>
+						<thead>
+							<tr>
+								<td>User name</td>
+								<td><ScoreButton name="Recent" recent={true} onLoad = {this.handleOnLoad}/></td>
+								<td><ScoreButton name="All time" recent={false} onLoad = {this.handleOnLoad}/></td>
+							</tr>
+						</thead>
+						<tbody>
+							{rows}
+						</tbody>
+					</table>
+				);
+			}
+		});
+
+        ReactDOM.render(
+            <Table />,
+            document.getElementById('content')
+        );
+    </script>
+</body>
+</html>
