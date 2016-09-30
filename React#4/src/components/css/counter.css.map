@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAEA,QAAS;EACR,OAAO,EAAE,YAAY;EACrB,KAAK,EAAE,KAAK;EACZ,gBAAgB,ECHR,OAAO;EDIf,KAAK,ECLG,OAAO;EDMf,UAAU,EAAE,gEAAoB;EAChC,aAAa,EAAE,GAAG;EAClB,OAAO,EAAE,GAAG;EACZ,MAAM,EAAE,UAAU;EAClB,UAAU,EAAE,MAAM;EAClB,WAAW,EAAE,SAAS;EACtB,SAAS,EAAE,IAAI;EACf,KAAK,EAAE,IAAI",
+"sources": ["../scss/counter.scss","../scss/pallete.scss"],
+"names": [],
+"file": "counter.css"
+}

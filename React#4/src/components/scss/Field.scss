@@ -1,0 +1,16 @@
+@import 'pallete';
+@import 'reset';
+
+.cell {
+	td {
+		background-color: $cell-d;
+		width: 10px;
+		height: 10px;
+		border-left: $border;
+		border-bottom: $border;
+	}
+
+	.alive {
+		background-color: $cell-l;
+	}
+}

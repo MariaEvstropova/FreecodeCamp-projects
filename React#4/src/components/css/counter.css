@@ -1,0 +1,15 @@
+.counter {
+  display: inline-block;
+  float: right;
+  background-color: #A7988B;
+  color: #4B0516;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.65), 0px 0px 1px rgba(0, 0, 0, 0.65);
+  border-radius: 2px;
+  padding: 5px;
+  margin: 0 0 15px 0;
+  text-align: center;
+  font-family: monospace;
+  font-size: 15px;
+  width: 50px; }
+
+/*# sourceMappingURL=counter.css.map */
