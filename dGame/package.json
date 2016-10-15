@@ -1,0 +1,18 @@
+{
+  "name": "dungeon_game",
+  "version": "1.0.0",
+  "description": "game built for free code camp",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devserver": "webpack-dev-server --debug --hot --devtool eval-source-map --output-pathinfo --watch --colors --inline --content-base public --port 8090 --host 0.0.0.0"
+  },
+  "author": "Maria Evstropova",
+  "license": "ISC",
+  "devDependencies": {
+    "ts-loader": "^0.9.1",
+    "typescript": "^2.0.3",
+    "webpack": "^1.13.2",
+    "webpack-dev-server": "^1.16.2"
+  }
+}
