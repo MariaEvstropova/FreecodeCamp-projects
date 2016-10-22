@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function (event) {
     var spriteSheet = new Image();
     background.drawLevel();
     spriteSheet.onload = function () {
-        context.drawImage(spriteSheet, 0, 0);
     };
     spriteSheet.src = img;
 });

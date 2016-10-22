@@ -1,5 +1,5 @@
 import {Background} from "./components/background/background";
-
+import * as cells_data from "./components/game/cells_data";
 declare function require(name: string): any;
 
 var img = require("./images/spritesheet.png");
@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", (event)=>{
   background.drawLevel();
 
   spriteSheet.onload = () => {
-    context.drawImage(spriteSheet, 0, 0);
+
   };
 
   spriteSheet.src = img;
