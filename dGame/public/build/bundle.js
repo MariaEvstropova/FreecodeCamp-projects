@@ -53,10 +53,64 @@
 
 	"use strict";
 	var background_1 = __webpack_require__(2);
-	var canvas = document.getElementById("canvas");
-	var context = canvas.getContext("2d");
-	var background = new background_1.Background(context, canvas.width, canvas.height);
-	background.drawLevel();
+	var img = __webpack_require__(5);
+	var CAT_CELLS_WIDTH = 32, CAT_CELLS_HEIGHT = 32;
+	var catCells_front = [
+	    { left: 0, top: 0, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	    { left: 32, top: 0, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	    { left: 64, top: 0, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	];
+	//Кот бежит налево
+	var catCells_left = [
+	    { left: 0, top: 32, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	    { left: 32, top: 32, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	    { left: 64, top: 32, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	];
+	//Кот бежит направо
+	var catCells_right = [
+	    { left: 0, top: 64, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	    { left: 32, top: 64, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	    { left: 64, top: 64, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	];
+	//Кот бежит назад
+	var catCells_back = [
+	    { left: 0, top: 96, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	    { left: 32, top: 96, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	    { left: 64, top: 96, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
+	];
+	var DOG_CELLS_WIDTH = 32, DOG_CELLS_HEIGHT = 32;
+	var dog_barks_right = [
+	    { left: 0, top: 162, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
+	    { left: 42, top: 162, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
+	    { left: 76, top: 162, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
+	    { left: 118, top: 162, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
+	];
+	var dog_barks_left = [
+	    { left: 0, top: 192, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
+	    { left: 42, top: 192, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
+	    { left: 76, top: 192, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
+	    { left: 118, top: 192, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
+	];
+	var dog_sleeps = [
+	    { left: 34, top: 140, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT }
+	];
+	var BONE_CELLS_WIDTH = 25, BONE_CELLS_HEIGHT = 25;
+	var bone_flying = [
+	    { left: 0, top: 134, width: BONE_CELLS_WIDTH, height: BONE_CELLS_HEIGHT }
+	];
+	document.addEventListener("DOMContentLoaded", function (event) {
+	    var canvas_bg = document.getElementById("canvas");
+	    var context_bg = canvas_bg.getContext("2d");
+	    var background = new background_1.Background(context_bg, canvas_bg.width, canvas_bg.height);
+	    var canvas_pl = document.getElementById("canvas-player");
+	    var context_pl = canvas_pl.getContext("2d");
+	    var spriteSheet = new Image();
+	    spriteSheet.onload = function () {
+	        context_pl.drawImage(spriteSheet, 0, 0);
+	    };
+	    spriteSheet.src = img;
+	    // background.drawLevel();
+	});
 
 
 /***/ },
@@ -66,6 +120,7 @@
 	"use strict";
 	var room_1 = __webpack_require__(3);
 	var corridor_1 = __webpack_require__(4);
+	var corridor_2 = __webpack_require__(4);
 	var Background = (function () {
 	    function Background(context, width, height) {
 	        this.context = context;
@@ -74,8 +129,8 @@
 	        this.countFail = 0;
 	        this.width = width;
 	        this.height = height;
-	        this.cellW = this.width / 3;
-	        this.cellH = this.height / 3;
+	        this.cellW = width / 3;
+	        this.cellH = height / 3;
 	        this.field = [];
 	    }
 	    Background.prototype.getDelta = function () {
@@ -159,7 +214,7 @@
 	                var walls = this.createWalls();
 	                var delta = this.getDelta();
 	                var cellCenter = this.getCellCenter(cell.row, cell.col);
-	                var roomCenter = void 0;
+	                var roomCenter = new corridor_2.Point();
 	                roomCenter.x = cellCenter.x + delta.x;
 	                roomCenter.y = cellCenter.y + delta.y;
 	                var room = new room_1.Room(walls.w, walls.h, roomCenter.x, roomCenter.y, cell.row, cell.col);
@@ -180,6 +235,7 @@
 	            _this.context.fillStyle = patternBG;
 	            _this.context.fillRect(0, 0, _this.width, _this.height);
 	            imageR.onload = function () {
+	                console.log("image R onload");
 	                var patternR = _this.context.createPattern(imageR, 'repeat');
 	                _this.context.fillStyle = patternR;
 	                _this.getLevel();
@@ -223,6 +279,14 @@
 /***/ function(module, exports) {
 
 	"use strict";
+	var Point = (function () {
+	    function Point(x, y) {
+	        this.x = x || 0;
+	        this.y = y || 0;
+	    }
+	    return Point;
+	}());
+	exports.Point = Point;
 	var Corridor = (function () {
 	    function Corridor(room1, room2, position) {
 	        var dX = room1.centerX - room2.centerX;
@@ -256,6 +320,12 @@
 	}());
 	exports.Corridor = Corridor;
 
+
+/***/ },
+/* 5 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "/images/spritesheet.png";
 
 /***/ }
 /******/ ]);

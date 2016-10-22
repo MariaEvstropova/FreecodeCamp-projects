@@ -17,6 +17,10 @@ module.exports = {
         test: /\.tsx?$/,
         loader: "ts-loader",
         exclude: /node_modules/
+      },
+      {
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        loader: "file-loader?name=/images/[name].[ext]"
       }
     ]
   }

@@ -1,6 +1,8 @@
 import {Room} from "./room";
 import {Corridor} from "./corridor";
 import {Point} from "./corridor";
+import {img_w} from "../../main";
+import {img_g} from "../../main";
 
 interface Cell {
   row: number;
@@ -133,15 +135,14 @@ export class Background {
 
   public drawLevel():void {
     var imageBG = new Image();
-    imageBG.src = "http://res.cloudinary.com/mariaevstropova/image/upload/v1476004934/grass_pjschm.png";
+    imageBG.src = img_w;
     var imageR = new Image();
-    imageR.src = "http://res.cloudinary.com/mariaevstropova/image/upload/v1476004934/road_caf7b3.png";
+    imageR.src = img_g;
     imageBG.onload = () => {
       var patternBG = this.context.createPattern(imageBG, 'repeat');
       this.context.fillStyle = patternBG;
       this.context.fillRect(0,0,this.width,this.height);
       imageR.onload = () => {
-        console.log("image R onload");
         var patternR = this.context.createPattern(imageR, 'repeat');
         this.context.fillStyle = patternR;
         this.getLevel();

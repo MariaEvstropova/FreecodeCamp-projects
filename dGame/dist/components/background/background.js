@@ -2,8 +2,8 @@
 var room_1 = require("./room");
 var corridor_1 = require("./corridor");
 var corridor_2 = require("./corridor");
-var main_1 = require("../main");
-var main_2 = require("../main");
+var main_1 = require("../../main");
+var main_2 = require("../../main");
 var Background = (function () {
     function Background(context, width, height) {
         this.context = context;
