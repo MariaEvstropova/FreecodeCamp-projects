@@ -54,62 +54,17 @@
 	"use strict";
 	var background_1 = __webpack_require__(2);
 	var img = __webpack_require__(5);
-	var CAT_CELLS_WIDTH = 32, CAT_CELLS_HEIGHT = 32;
-	var catCells_front = [
-	    { left: 0, top: 0, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	    { left: 32, top: 0, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	    { left: 64, top: 0, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	];
-	//Кот бежит налево
-	var catCells_left = [
-	    { left: 0, top: 32, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	    { left: 32, top: 32, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	    { left: 64, top: 32, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	];
-	//Кот бежит направо
-	var catCells_right = [
-	    { left: 0, top: 64, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	    { left: 32, top: 64, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	    { left: 64, top: 64, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	];
-	//Кот бежит назад
-	var catCells_back = [
-	    { left: 0, top: 96, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	    { left: 32, top: 96, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	    { left: 64, top: 96, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
-	];
-	var DOG_CELLS_WIDTH = 32, DOG_CELLS_HEIGHT = 32;
-	var dog_barks_right = [
-	    { left: 0, top: 162, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
-	    { left: 42, top: 162, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
-	    { left: 76, top: 162, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
-	    { left: 118, top: 162, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
-	];
-	var dog_barks_left = [
-	    { left: 0, top: 192, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
-	    { left: 42, top: 192, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
-	    { left: 76, top: 192, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
-	    { left: 118, top: 192, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT },
-	];
-	var dog_sleeps = [
-	    { left: 34, top: 140, width: DOG_CELLS_WIDTH, height: DOG_CELLS_HEIGHT }
-	];
-	var BONE_CELLS_WIDTH = 25, BONE_CELLS_HEIGHT = 25;
-	var bone_flying = [
-	    { left: 0, top: 134, width: BONE_CELLS_WIDTH, height: BONE_CELLS_HEIGHT }
-	];
+	exports.img_w = __webpack_require__(6);
+	exports.img_g = __webpack_require__(7);
 	document.addEventListener("DOMContentLoaded", function (event) {
-	    var canvas_bg = document.getElementById("canvas");
-	    var context_bg = canvas_bg.getContext("2d");
-	    var background = new background_1.Background(context_bg, canvas_bg.width, canvas_bg.height);
-	    var canvas_pl = document.getElementById("canvas-player");
-	    var context_pl = canvas_pl.getContext("2d");
+	    var canvas = document.getElementById("canvas");
+	    var context = canvas.getContext("2d");
+	    var background = new background_1.Background(context, canvas.width, canvas.height);
 	    var spriteSheet = new Image();
+	    background.drawLevel();
 	    spriteSheet.onload = function () {
-	        context_pl.drawImage(spriteSheet, 0, 0);
 	    };
 	    spriteSheet.src = img;
-	    // background.drawLevel();
 	});
 
 
@@ -121,6 +76,8 @@
 	var room_1 = __webpack_require__(3);
 	var corridor_1 = __webpack_require__(4);
 	var corridor_2 = __webpack_require__(4);
+	var main_1 = __webpack_require__(1);
+	var main_2 = __webpack_require__(1);
 	var Background = (function () {
 	    function Background(context, width, height) {
 	        this.context = context;
@@ -227,15 +184,14 @@
 	    Background.prototype.drawLevel = function () {
 	        var _this = this;
 	        var imageBG = new Image();
-	        imageBG.src = "http://res.cloudinary.com/mariaevstropova/image/upload/v1476004934/grass_pjschm.png";
+	        imageBG.src = main_1.img_w;
 	        var imageR = new Image();
-	        imageR.src = "http://res.cloudinary.com/mariaevstropova/image/upload/v1476004934/road_caf7b3.png";
+	        imageR.src = main_2.img_g;
 	        imageBG.onload = function () {
 	            var patternBG = _this.context.createPattern(imageBG, 'repeat');
 	            _this.context.fillStyle = patternBG;
 	            _this.context.fillRect(0, 0, _this.width, _this.height);
 	            imageR.onload = function () {
-	                console.log("image R onload");
 	                var patternR = _this.context.createPattern(imageR, 'repeat');
 	                _this.context.fillStyle = patternR;
 	                _this.getLevel();
@@ -326,6 +282,18 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "/images/spritesheet.png";
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "/images/water.png";
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "/images/ground.png";
 
 /***/ }
 /******/ ]);

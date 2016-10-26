@@ -5,19 +5,19 @@ export var catCells_front = [
        { left: 32,  top: 0, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
        { left: 64,  top: 0, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
 ];
-//Кот бежит налево
+// Кот бежит налево
 export var catCells_left = [
        { left: 0,   top: 32, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
        { left: 32,  top: 32, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
        { left: 64,  top: 32, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
 ];
-//Кот бежит направо
+// Кот бежит направо
 export var catCells_right = [
        { left: 0,   top: 64, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
        { left: 32,  top: 64, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
        { left: 64,  top: 64, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
 ];
-//Кот бежит назад
+// Кот бежит назад
 export var catCells_back = [
        { left: 0,   top: 96, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },
        { left: 32,  top: 96, width: CAT_CELLS_WIDTH, height: CAT_CELLS_HEIGHT },

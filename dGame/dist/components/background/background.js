@@ -48,8 +48,8 @@ var Background = (function () {
     };
     Background.prototype.isFree = function (cell) {
         for (var i = 0; i < this.field.length; i++) {
-            if (this.field[i].row == cell.row) {
-                if (this.field[i].col == cell.col) {
+            if (this.field[i].row === cell.row) {
+                if (this.field[i].col === cell.col) {
                     return false;
                 }
             }
@@ -62,9 +62,9 @@ var Background = (function () {
     };
     Background.prototype.connectRooms = function () {
         var _this = this;
-        var _loop_1 = function(i) {
+        var _loop_1 = function (i) {
             var column = this_1.rooms.filter(function (item) {
-                return item.col == i;
+                return item.col === i;
             });
             column.sort(function (a, b) {
                 return a.row - b.row;
@@ -74,7 +74,7 @@ var Background = (function () {
                 return currentValue;
             });
             var row = this_1.rooms.filter(function (item) {
-                return item.row == i;
+                return item.row === i;
             });
             row.sort(function (a, b) {
                 return a.col - b.col;
@@ -114,11 +114,11 @@ var Background = (function () {
         var imageR = new Image();
         imageR.src = main_2.img_g;
         imageBG.onload = function () {
-            var patternBG = _this.context.createPattern(imageBG, 'repeat');
+            var patternBG = _this.context.createPattern(imageBG, "repeat");
             _this.context.fillStyle = patternBG;
             _this.context.fillRect(0, 0, _this.width, _this.height);
             imageR.onload = function () {
-                var patternR = _this.context.createPattern(imageR, 'repeat');
+                var patternR = _this.context.createPattern(imageR, "repeat");
                 _this.context.fillStyle = patternR;
                 _this.getLevel();
                 _this.rooms.forEach(function (item, index) {

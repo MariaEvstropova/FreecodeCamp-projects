@@ -18,9 +18,9 @@ export class Room {
     this.row = row;
     this.col = col;
   }
-  public draw(context:CanvasRenderingContext2D) {
-    context.fillRect(this.centerX-this.width/2,
-                    this.centerY-this.height/2,
+  public draw(context: CanvasRenderingContext2D) {
+    context.fillRect(this.centerX - this.width / 2,
+                    this.centerY - this.height / 2,
                     this.width,
                     this.height);
   }

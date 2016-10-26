@@ -1,4 +1,4 @@
-import {Sprite} from './sprite';
+import {Sprite} from "./sprite";
 
 export interface Cell {
   left: number;
@@ -19,7 +19,7 @@ export class Artist {
   }
 
   advance(): void {
-    if (this.cellIndex == this.cells.length-1) {
+    if (this.cellIndex === this.cells.length - 1) {
       this.cellIndex = 0;
     }
     else {
@@ -28,7 +28,7 @@ export class Artist {
   }
 
   draw(sprite: Sprite, context: CanvasRenderingContext2D): void {
-    var cell = this.cells[this.cellIndex];
+    let cell = this.cells[this.cellIndex];
     context.drawImage(this.spritesheet,
                       cell.left,
                       cell.top,
