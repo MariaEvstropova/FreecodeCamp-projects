@@ -2,8 +2,6 @@
 var room_1 = require("./room");
 var corridor_1 = require("./corridor");
 var corridor_2 = require("./corridor");
-var main_1 = require("../../main");
-var main_2 = require("../../main");
 var Background = (function () {
     function Background(context, width, height) {
         this.context = context;
@@ -110,9 +108,9 @@ var Background = (function () {
     Background.prototype.drawLevel = function () {
         var _this = this;
         var imageBG = new Image();
-        imageBG.src = main_1.img_w;
+        imageBG.src = require("../../images/water.png");
         var imageR = new Image();
-        imageR.src = main_2.img_g;
+        imageR.src = require("../../images/ground.png");
         imageBG.onload = function () {
             var patternBG = _this.context.createPattern(imageBG, "repeat");
             _this.context.fillStyle = patternBG;

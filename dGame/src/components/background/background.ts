@@ -1,8 +1,8 @@
 import {Room} from "./room";
 import {Corridor} from "./corridor";
 import {Point} from "./corridor";
-import {img_w} from "../../main";
-import {img_g} from "../../main";
+
+declare function require(name: string): any;
 
 interface Cell {
   row: number;
@@ -135,9 +135,9 @@ export class Background {
 
   public drawLevel(): void {
     let imageBG = new Image();
-    imageBG.src = img_w;
+    imageBG.src = require("../../images/water.png");
     let imageR = new Image();
-    imageR.src = img_g;
+    imageR.src = require("../../images/ground.png");
     imageBG.onload = () => {
       let patternBG = this.context.createPattern(imageBG, "repeat");
       this.context.fillStyle = patternBG;
