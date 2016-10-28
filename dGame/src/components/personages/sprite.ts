@@ -7,7 +7,7 @@ export class Sprite {
   behaviors: Behavior[];
   left: number;
   top: number;
-  constructor(type, artist, behaviors) {
+  constructor(type?: String, artist?: Artist, behaviors?: Behavior[]) {
     this.type = type || "";
     this.artist = artist || undefined;
     this.behaviors = behaviors || [];
