@@ -1,9 +1,9 @@
 "use strict";
-var room_1 = require("./room");
-var corridor_1 = require("./corridor");
-var corridor_2 = require("./corridor");
-var Background = (function () {
-    function Background(context, width, height) {
+const room_1 = require("./room");
+const corridor_1 = require("./corridor");
+const point_1 = require("../point");
+class Background {
+    constructor(context, width, height) {
         this.context = context;
         this.rooms = [];
         this.corridors = [];
@@ -14,38 +14,38 @@ var Background = (function () {
         this.cellH = height / 3;
         this.field = [];
     }
-    Background.prototype.getDelta = function () {
-        var dX = Math.floor(Math.random() * 2 * this.width / 10 - this.width / 10);
-        var dY = Math.floor(Math.random() * 2 * this.height / 10 - this.height / 10);
-        var result = { x: dX, y: dY };
+    getDelta() {
+        let dX = Math.floor(Math.random() * 2 * this.width / 10 - this.width / 10);
+        let dY = Math.floor(Math.random() * 2 * this.height / 10 - this.height / 10);
+        let result = { x: dX, y: dY };
         return result;
-    };
-    Background.prototype.createWalls = function () {
-        var width = Math.floor(Math.random() * (this.width / 5 - this.width / 10) + this.width / 10);
-        var height = Math.floor(Math.random() * (this.height / 5 - this.height / 10) + this.height / 10);
+    }
+    createWalls() {
+        let width = Math.floor(Math.random() * (this.width / 5 - this.width / 10) + this.width / 10);
+        let height = Math.floor(Math.random() * (this.height / 5 - this.height / 10) + this.height / 10);
         return {
             w: width,
             h: height
         };
-    };
-    Background.prototype.getCellCenter = function (row, col) {
-        var cX = this.cellW * (col - 1) + this.cellW / 2;
-        var cY = this.cellH * (row - 1) + this.cellH / 2;
+    }
+    getCellCenter(row, col) {
+        let cX = this.cellW * (col - 1) + this.cellW / 2;
+        let cY = this.cellH * (row - 1) + this.cellH / 2;
         return {
             x: cX,
             y: cY
         };
-    };
-    Background.prototype.getRandomCell = function () {
-        var row = Math.floor(Math.random() * 3 + 1);
-        var col = Math.floor(Math.random() * 3 + 1);
+    }
+    getRandomCell() {
+        let row = Math.floor(Math.random() * 3 + 1);
+        let col = Math.floor(Math.random() * 3 + 1);
         return {
             row: row,
             col: col
         };
-    };
-    Background.prototype.isFree = function (cell) {
-        for (var i = 0; i < this.field.length; i++) {
+    }
+    isFree(cell) {
+        for (let i = 0; i < this.field.length; i++) {
             if (this.field[i].row === cell.row) {
                 if (this.field[i].col === cell.col) {
                     return false;
@@ -53,81 +53,85 @@ var Background = (function () {
             }
         }
         return true;
-    };
-    Background.prototype.getRandNumRooms = function () {
-        var numCells = Math.floor(Math.random() * 2 + 7);
+    }
+    getRandNumRooms() {
+        let numCells = Math.floor(Math.random() * 2 + 7);
         return numCells;
-    };
-    Background.prototype.connectRooms = function () {
-        var _this = this;
-        var _loop_1 = function (i) {
-            var column = this_1.rooms.filter(function (item) {
+    }
+    connectRooms() {
+        for (let i = 1; i <= 3; i++) {
+            let column = this.rooms.filter(item => {
                 return item.col === i;
             });
-            column.sort(function (a, b) {
+            column.sort((a, b) => {
                 return a.row - b.row;
             });
-            column.reduce(function (previousValue, currentValue) {
-                _this.corridors.push(new corridor_1.Corridor(previousValue, currentValue, "ver"));
+            column.reduce((previousValue, currentValue) => {
+                this.corridors.push(new corridor_1.Corridor(previousValue, currentValue, "ver"));
                 return currentValue;
             });
-            var row = this_1.rooms.filter(function (item) {
+            let row = this.rooms.filter(item => {
                 return item.row === i;
             });
-            row.sort(function (a, b) {
+            row.sort((a, b) => {
                 return a.col - b.col;
             });
-            row.reduce(function (previousValue, currentValue) {
-                _this.corridors.push(new corridor_1.Corridor(previousValue, currentValue, "hor"));
+            row.reduce((previousValue, currentValue) => {
+                this.corridors.push(new corridor_1.Corridor(previousValue, currentValue, "hor"));
                 return currentValue;
             });
-        };
-        var this_1 = this;
-        for (var i = 1; i <= 3; i++) {
-            _loop_1(i);
         }
-    };
-    Background.prototype.getLevel = function () {
-        var numRooms = this.getRandNumRooms();
+    }
+    getLevel() {
+        console.log("entered get level");
+        let numRooms = this.getRandNumRooms();
         while (this.rooms.length < numRooms) {
-            var cell = this.getRandomCell();
+            let cell = this.getRandomCell();
             if (this.isFree(cell)) {
-                var walls = this.createWalls();
-                var delta = this.getDelta();
-                var cellCenter = this.getCellCenter(cell.row, cell.col);
-                var roomCenter = new corridor_2.Point();
+                let walls = this.createWalls();
+                let delta = this.getDelta();
+                let cellCenter = this.getCellCenter(cell.row, cell.col);
+                let roomCenter = new point_1.Point();
                 roomCenter.x = cellCenter.x + delta.x;
                 roomCenter.y = cellCenter.y + delta.y;
-                var room = new room_1.Room(walls.w, walls.h, roomCenter.x, roomCenter.y, cell.row, cell.col);
+                let room = new room_1.Room(walls.w, walls.h, roomCenter.x, roomCenter.y, cell.row, cell.col);
                 this.rooms.push(room);
                 this.field.push(cell);
             }
         }
         this.connectRooms();
-    };
-    Background.prototype.drawLevel = function () {
-        var _this = this;
-        var imageBG = new Image();
-        imageBG.src = require("../../images/water.png");
-        var imageR = new Image();
-        imageR.src = require("../../images/ground.png");
-        imageBG.onload = function () {
-            var patternBG = _this.context.createPattern(imageBG, "repeat");
-            _this.context.fillStyle = patternBG;
-            _this.context.fillRect(0, 0, _this.width, _this.height);
-            imageR.onload = function () {
-                var patternR = _this.context.createPattern(imageR, "repeat");
-                _this.context.fillStyle = patternR;
-                _this.getLevel();
-                _this.rooms.forEach(function (item, index) {
-                    item.draw(_this.context);
-                });
-                _this.context.strokeStyle = patternR;
-                _this.corridors.forEach(function (item) { return item.draw(_this.context, _this.width / 25); });
+    }
+    drawLevel() {
+        let promiseBG = new Promise((resolve, reject) => {
+            let image = new Image();
+            image.onload = () => {
+                this.imageBG = image;
+                resolve();
             };
-        };
-    };
-    return Background;
-}());
+            image.src = require("../../images/water.png");
+        });
+        let promiseR = new Promise((resolve, reject) => {
+            let image = new Image();
+            image.onload = () => {
+                this.imageR = image;
+                resolve();
+            };
+            image.src = require("../../images/ground.png");
+        });
+        return Promise.all([promiseBG, promiseR]).then((resolve) => {
+            this.getLevel();
+            let patternBG = this.context.createPattern(this.imageBG, "repeat");
+            this.context.fillStyle = patternBG;
+            this.context.fillRect(0, 0, this.width, this.height);
+            let patternR = this.context.createPattern(this.imageR, "repeat");
+            this.context.fillStyle = patternR;
+            this.rooms.forEach((item, index) => {
+                item.draw(this.context);
+            });
+            this.context.strokeStyle = patternR;
+            this.corridors.forEach(item => item.draw(this.context, this.width / 25));
+        });
+    }
+}
 exports.Background = Background;
 //# sourceMappingURL=background.js.map

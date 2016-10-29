@@ -1,5 +1,6 @@
-import {Artist} from "./artist";
-import {Behavior} from "./behavior";
+import {Artist} from './artist';
+import {Behavior} from './behavior';
+import {Point} from "../point";
 
 export class Sprite {
   type: String;
@@ -7,13 +8,13 @@ export class Sprite {
   behaviors: Behavior[];
   left: number;
   top: number;
-  constructor(type?: String, artist?: Artist, behaviors?: Behavior[]) {
-    this.type = type || "";
+  constructor(type?: String, artist?: Artist, x?: number, y?: number, behaviors?: Behavior[]) {
+    this.type = type || '';
     this.artist = artist || undefined;
     this.behaviors = behaviors || [];
 
-    this.left = 0;
-    this.top = 0;
+    this.left = x || 0;
+    this.top = y || 0;
   }
 
   draw(context): void {
@@ -21,7 +22,7 @@ export class Sprite {
   }
 
   update(time): void {
-    for (let i = 0; i < this.behaviors.length; ++i) {
+    for (var i=0; i < this.behaviors.length; ++i) {
       if (this.behaviors[i] === undefined) { // Изменен во время цикла?
         return;
       }

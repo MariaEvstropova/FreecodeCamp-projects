@@ -1,6 +1,6 @@
 import {Room} from "./room";
 import {Corridor} from "./corridor";
-import {Point} from "./corridor";
+import {Point} from "../point";
 
 declare function require(name: string): any;
 
@@ -24,6 +24,8 @@ export class Background {
   cellW: number;
   cellH: number;
   field: Array<Cell>;
+  imageBG: HTMLImageElement;
+  imageR: HTMLImageElement;
 
   public constructor(context: CanvasRenderingContext2D, width: number, height: number) {
     this.context = context;
@@ -115,6 +117,7 @@ export class Background {
   }
 
   public getLevel(): void {
+    console.log("entered get level");
     let numRooms = this.getRandNumRooms();
     while (this.rooms.length < numRooms) {
       let cell = this.getRandomCell();
@@ -133,25 +136,51 @@ export class Background {
     this.connectRooms();
   }
 
-  public drawLevel(): void {
-    let imageBG = new Image();
-    imageBG.src = require("../../images/water.png");
-    let imageR = new Image();
-    imageR.src = require("../../images/ground.png");
-    imageBG.onload = () => {
-      let patternBG = this.context.createPattern(imageBG, "repeat");
+  public drawLevel(): Promise<any> {
+    let promiseBG = new Promise((resolve, reject) => {
+      let image = new Image();
+      image.onload = () => {
+        this.imageBG = image;
+        resolve();
+      };
+      image.src = require("../../images/water.png");
+    });
+
+    let promiseR = new Promise((resolve, reject) => {
+      let image = new Image();
+      image.onload = () => {
+        this.imageR = image;
+        resolve();
+      };
+      image.src = require("../../images/ground.png");
+    });
+
+    return Promise.all([promiseBG, promiseR]).then((resolve) => {
+      this.getLevel();
+      let patternBG = this.context.createPattern(this.imageBG, "repeat");
       this.context.fillStyle = patternBG;
       this.context.fillRect(0, 0, this.width, this.height);
-      imageR.onload = () => {
-        let patternR = this.context.createPattern(imageR, "repeat");
-        this.context.fillStyle = patternR;
-        this.getLevel();
-        this.rooms.forEach((item, index) => {
-          item.draw(this.context);
-        });
-        this.context.strokeStyle = patternR;
-        this.corridors.forEach(item => item.draw(this.context, this.width / 25));
-      };
-    };
+      let patternR = this.context.createPattern(this.imageR, "repeat");
+      this.context.fillStyle = patternR;
+      this.rooms.forEach((item, index) => {
+        item.draw(this.context);
+      });
+      this.context.strokeStyle = patternR;
+      this.corridors.forEach(item => item.draw(this.context, this.width / 25));
+    });
+      /*imageBG.onload = () => {
+        let patternBG = this.context.createPattern(imageBG, "repeat");
+        this.context.fillStyle = patternBG;
+        this.context.fillRect(0, 0, this.width, this.height);
+        imageR.onload = () => {
+          let patternR = this.context.createPattern(imageR, "repeat");
+          this.context.fillStyle = patternR;
+          this.rooms.forEach((item, index) => {
+            item.draw(this.context);
+          });
+          this.context.strokeStyle = patternR;
+          this.corridors.forEach(item => item.draw(this.context, this.width / 25));
+        };
+      };*/
   }
 }

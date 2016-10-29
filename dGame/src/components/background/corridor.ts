@@ -1,13 +1,5 @@
 import {Room} from "./room";
-
-export class Point {
-  x: number;
-  y: number;
-  public constructor(x?: number, y?: number) {
-    this.x = x || 0;
-    this.y = y || 0;
-  }
-}
+import {Point} from "../point";
 
 export class Corridor {
   startP: Point;
