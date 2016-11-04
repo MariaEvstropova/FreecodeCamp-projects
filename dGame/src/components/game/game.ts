@@ -23,7 +23,9 @@ export class Game {
   createPersonages(rooms: Array<Room>): Array<Sprite> {
     let sprites = new Array<Sprite>();
     rooms.forEach((room, index) => {
-      let dog = new Sprite("dog", new Artist(this.spriteSheet, CELLS.dog_sleeps), room.centerX, room.centerY);
+      let x = Math.random()*((room.centerX + room.width/2 - CELLS.DOG_CELLS_WIDTH) - (room.centerX - room.width/2)) + (room.centerX - room.width/2);
+      let y = Math.random()*((room.centerY + room.height/2 - CELLS.DOG_CELLS_HEIGHT) - (room.centerY - room.height/2)) + (room.centerY - room.height/2);
+      let dog = new Sprite("dog", new Artist(this.spriteSheet, CELLS.dog_sleeps), x, y);
       sprites.push(dog);
     });
     return sprites;

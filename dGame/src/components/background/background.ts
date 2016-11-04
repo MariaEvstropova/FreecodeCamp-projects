@@ -168,19 +168,5 @@ export class Background {
       this.context.strokeStyle = patternR;
       this.corridors.forEach(item => item.draw(this.context, this.width / 25));
     });
-      /*imageBG.onload = () => {
-        let patternBG = this.context.createPattern(imageBG, "repeat");
-        this.context.fillStyle = patternBG;
-        this.context.fillRect(0, 0, this.width, this.height);
-        imageR.onload = () => {
-          let patternR = this.context.createPattern(imageR, "repeat");
-          this.context.fillStyle = patternR;
-          this.rooms.forEach((item, index) => {
-            item.draw(this.context);
-          });
-          this.context.strokeStyle = patternR;
-          this.corridors.forEach(item => item.draw(this.context, this.width / 25));
-        };
-      };*/
   }
 }
