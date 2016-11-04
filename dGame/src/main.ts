@@ -1,9 +1,18 @@
 import {Game} from "./components/game/game";
 
 document.addEventListener("DOMContentLoaded", (event)=>{
-  var canvas:HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas");
-  var context:CanvasRenderingContext2D = canvas.getContext("2d");
+  let canvas:HTMLCanvasElement = <HTMLCanvasElement>document.getElementById("canvas");
+  let context:CanvasRenderingContext2D = canvas.getContext("2d");
+  let game:Game = new Game(context, canvas);
 
-  var game = new Game(context, canvas);
-  game.drawGameLevel();
+  function animate(now): void {
+    game.cat.update(now);
+    game.cat.draw(context);
+    requestAnimationFrame(animate);
+  }
+
+  game.drawGameLevel().then((resolve) => {
+    console.log(game.cat);
+    requestAnimationFrame(animate);
+  });
 });

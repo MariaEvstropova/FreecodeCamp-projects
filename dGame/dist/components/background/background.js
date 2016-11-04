@@ -83,7 +83,6 @@ class Background {
         }
     }
     getLevel() {
-        console.log("entered get level");
         let numRooms = this.getRandNumRooms();
         while (this.rooms.length < numRooms) {
             let cell = this.getRandomCell();

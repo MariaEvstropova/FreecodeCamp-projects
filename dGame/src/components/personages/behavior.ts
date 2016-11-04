@@ -4,5 +4,5 @@ export interface Behavior {
   runAnimationRate: number;
   lastAdvanceTime: number;
 
-  execute(sprite: Sprite, time): void;
+  execute(sprite: Sprite, time: number): void;
 }
