@@ -11,6 +11,7 @@ declare function require(name: string): any;
 export class Game {
   personages: Sprite[];
   cat: Sprite;
+  catArt: Artist[];
   background: Background;
   canvas: HTMLCanvasElement;
   context: CanvasRenderingContext2D;
@@ -29,7 +30,7 @@ export class Game {
       let x = Math.random()*((room.centerX + room.width/2 - CELLS.DOG_CELLS_WIDTH) - (room.centerX - room.width/2)) + (room.centerX - room.width/2);
       let y = Math.random()*((room.centerY + room.height/2 - CELLS.DOG_CELLS_HEIGHT) - (room.centerY - room.height/2)) + (room.centerY - room.height/2);
       if (index === catCellIndex) {
-        let catBehavior = new CatMoveBehavior(7);
+        let catBehavior = new CatMoveBehavior();
         let cat = new Sprite("cat", new Artist(this.spriteSheet, CELLS.catCells_front), x, y);
         cat.behaviors.push(catBehavior);
         this.cat = cat;
@@ -48,28 +49,27 @@ export class Game {
     return sprites;
   }
 
-  drawGameLevel(): Promise<any> {
-    window.addEventListener("keydown", event => {
-      if (event.keyCode == 87) {
-        console.log("w");
-      }
-      if (event.keyCode == 65) {
-        console.log("a");
-      }
-      if (event.keyCode == 68) {
-        console.log("d");
-      }
-      if (event.keyCode == 83) {
-        console.log("s");
-      }
+  redrawLevelBG(bg: Background): void {
+    this.background.drawLevel().then((resolve) => {
+      this.personages.forEach((item, index, personages) => {
+        item.draw(this.context);
+      });
     });
+  }
 
+  drawGameLevel(): Promise<any> {
     this.background = new Background(this.context, this.canvas.width, this.canvas.height);
 
     let promise = new Promise((resolve, reject) => {
       let image = new Image();
       image.onload = () => {
         this.spriteSheet = image;
+        this.catArt = [
+          new Artist(this.spriteSheet, CELLS.catCells_front),
+          new Artist(this.spriteSheet, CELLS.catCells_left),
+          new Artist(this.spriteSheet, CELLS.catCells_right),
+          new Artist(this.spriteSheet, CELLS.catCells_back)
+        ];
         resolve();
       };
       image.src = require("../../images/spritesheet.png");

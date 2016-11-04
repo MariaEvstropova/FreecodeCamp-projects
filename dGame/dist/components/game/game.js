@@ -17,7 +17,7 @@ class Game {
             let x = Math.random() * ((room.centerX + room.width / 2 - CELLS.DOG_CELLS_WIDTH) - (room.centerX - room.width / 2)) + (room.centerX - room.width / 2);
             let y = Math.random() * ((room.centerY + room.height / 2 - CELLS.DOG_CELLS_HEIGHT) - (room.centerY - room.height / 2)) + (room.centerY - room.height / 2);
             if (index === catCellIndex) {
-                let catBehavior = new catmove_1.CatMoveBehavior(7);
+                let catBehavior = new catmove_1.CatMoveBehavior();
                 let cat = new sprite_1.Sprite("cat", new artist_1.Artist(this.spriteSheet, CELLS.catCells_front), x, y);
                 cat.behaviors.push(catBehavior);
                 this.cat = cat;
@@ -37,26 +37,25 @@ class Game {
         });
         return sprites;
     }
-    drawGameLevel() {
-        window.addEventListener("keydown", event => {
-            if (event.keyCode == 87) {
-                console.log("w");
-            }
-            if (event.keyCode == 65) {
-                console.log("a");
-            }
-            if (event.keyCode == 68) {
-                console.log("d");
-            }
-            if (event.keyCode == 83) {
-                console.log("s");
-            }
+    redrawLevelBG(bg) {
+        this.background.drawLevel().then((resolve) => {
+            this.personages.forEach((item, index, personages) => {
+                item.draw(this.context);
+            });
         });
+    }
+    drawGameLevel() {
         this.background = new background_1.Background(this.context, this.canvas.width, this.canvas.height);
         let promise = new Promise((resolve, reject) => {
             let image = new Image();
             image.onload = () => {
                 this.spriteSheet = image;
+                this.catArt = [
+                    new artist_1.Artist(this.spriteSheet, CELLS.catCells_front),
+                    new artist_1.Artist(this.spriteSheet, CELLS.catCells_left),
+                    new artist_1.Artist(this.spriteSheet, CELLS.catCells_right),
+                    new artist_1.Artist(this.spriteSheet, CELLS.catCells_back)
+                ];
                 resolve();
             };
             image.src = require("../../images/spritesheet.png");
