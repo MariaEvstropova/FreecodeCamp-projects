@@ -5,6 +5,8 @@ import * as CELLS from "./cells_data";
 import {Point} from "../point";
 import {Room} from "../background/room";
 import {CatMoveBehavior} from "../personages/catmove";
+import {DogBarkBehavior} from "../personages/dogbark";
+import {RUN_ANIMATION} from "../../main";
 
 declare function require(name: string): any;
 
@@ -38,7 +40,9 @@ export class Game {
       } else {
         let probability = Math.random();
         if (probability < 0.5) {
+          let dogBehavior = new DogBarkBehavior(RUN_ANIMATION);
           let dog = new Sprite("dog", new Artist(this.spriteSheet, CELLS.dog_sleeps), x, y);
+          dog.behaviors.push(dogBehavior);
           sprites.push(dog);
         } else {
           let bone = new Sprite("bone", new Artist(this.spriteSheet, CELLS.bone_flying), x, y);
@@ -49,8 +53,25 @@ export class Game {
     return sprites;
   }
 
+  checkWay(point: Point, width: number, height: number, background: Background): boolean {
+    let spriteCenter = new Point();
+    spriteCenter.x = point.x + width/2;
+    spriteCenter.y = point.y + height/2;
+    let result = false;
+    // console.log(spriteCenter);
+
+    background.rooms.forEach((room) => {
+      if (room.containPoint(spriteCenter, width, height)) {
+        // console.log(`room: centerX = ${room.centerX}, centerY = ${room.centerY}`);
+        result = true;
+      }
+    });
+    // console.log("checkWay return false");
+    return result;
+  }
+
   redrawLevelBG(bg: Background): void {
-    this.background.drawLevel().then((resolve) => {
+    this.background.redrawLevel().then((resolve) => {
       this.personages.forEach((item, index, personages) => {
         item.draw(this.context);
       });
@@ -59,7 +80,6 @@ export class Game {
 
   drawGameLevel(): Promise<any> {
     this.background = new Background(this.context, this.canvas.width, this.canvas.height);
-
     let promise = new Promise((resolve, reject) => {
       let image = new Image();
       image.onload = () => {

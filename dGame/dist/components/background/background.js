@@ -100,6 +100,21 @@ class Background {
         }
         this.connectRooms();
     }
+    redrawLevel() {
+        return new Promise((resolve, reject) => {
+            let patternBG = this.context.createPattern(this.imageBG, "repeat");
+            this.context.fillStyle = patternBG;
+            this.context.fillRect(0, 0, this.width, this.height);
+            let patternR = this.context.createPattern(this.imageR, "repeat");
+            this.context.fillStyle = patternR;
+            this.rooms.forEach((item, index) => {
+                item.draw(this.context);
+            });
+            this.context.strokeStyle = patternR;
+            this.corridors.forEach(item => item.draw(this.context, this.width / 25));
+            resolve();
+        });
+    }
     drawLevel() {
         let promiseBG = new Promise((resolve, reject) => {
             let image = new Image();

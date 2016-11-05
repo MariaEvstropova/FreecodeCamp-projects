@@ -29,7 +29,6 @@ export class Background {
 
   public constructor(context: CanvasRenderingContext2D, width: number, height: number) {
     this.context = context;
-
     this.rooms = [];
     this.corridors = [];
     this.countFail = 0;
@@ -133,6 +132,22 @@ export class Background {
       }
     }
     this.connectRooms();
+  }
+
+  redrawLevel(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      let patternBG = this.context.createPattern(this.imageBG, "repeat");
+      this.context.fillStyle = patternBG;
+      this.context.fillRect(0, 0, this.width, this.height);
+      let patternR = this.context.createPattern(this.imageR, "repeat");
+      this.context.fillStyle = patternR;
+      this.rooms.forEach((item, index) => {
+        item.draw(this.context);
+      });
+      this.context.strokeStyle = patternR;
+      this.corridors.forEach(item => item.draw(this.context, this.width / 25));
+      resolve();
+    });
   }
 
   public drawLevel(): Promise<any> {

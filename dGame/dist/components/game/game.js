@@ -3,7 +3,10 @@ const sprite_1 = require("../personages/sprite");
 const artist_1 = require("../personages/artist");
 const background_1 = require("../background/background");
 const CELLS = require("./cells_data");
+const point_1 = require("../point");
 const catmove_1 = require("../personages/catmove");
+const dogbark_1 = require("../personages/dogbark");
+const main_1 = require("../../main");
 class Game {
     constructor(context, canvas) {
         this.context = context;
@@ -26,7 +29,9 @@ class Game {
             else {
                 let probability = Math.random();
                 if (probability < 0.5) {
+                    let dogBehavior = new dogbark_1.DogBarkBehavior(main_1.RUN_ANIMATION);
                     let dog = new sprite_1.Sprite("dog", new artist_1.Artist(this.spriteSheet, CELLS.dog_sleeps), x, y);
+                    dog.behaviors.push(dogBehavior);
                     sprites.push(dog);
                 }
                 else {
@@ -37,8 +42,20 @@ class Game {
         });
         return sprites;
     }
+    checkWay(point, width, height, background) {
+        let spriteCenter = new point_1.Point();
+        spriteCenter.x = point.x + width / 2;
+        spriteCenter.y = point.y + height / 2;
+        let result = false;
+        background.rooms.forEach((room) => {
+            if (room.containPoint(spriteCenter, width, height)) {
+                result = true;
+            }
+        });
+        return result;
+    }
     redrawLevelBG(bg) {
-        this.background.drawLevel().then((resolve) => {
+        this.background.redrawLevel().then((resolve) => {
             this.personages.forEach((item, index, personages) => {
                 item.draw(this.context);
             });
