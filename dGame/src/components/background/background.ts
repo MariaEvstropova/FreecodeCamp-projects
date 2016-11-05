@@ -145,7 +145,7 @@ export class Background {
         item.draw(this.context);
       });
       this.context.strokeStyle = patternR;
-      this.corridors.forEach(item => item.draw(this.context, this.width / 25));
+      this.corridors.forEach(item => item.draw(this.context));
       resolve();
     });
   }
@@ -180,7 +180,7 @@ export class Background {
         item.draw(this.context);
       });
       this.context.strokeStyle = patternR;
-      this.corridors.forEach(item => item.draw(this.context, this.width / 25));
+      this.corridors.forEach(item => item.draw(this.context));
     });
   }
 }

@@ -52,6 +52,11 @@ class Game {
                 result = true;
             }
         });
+        background.corridors.forEach((corridor) => {
+            if (corridor.containPoint(spriteCenter, width, height)) {
+                result = true;
+            }
+        });
         return result;
     }
     redrawLevelBG(bg) {

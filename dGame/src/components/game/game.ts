@@ -58,15 +58,18 @@ export class Game {
     spriteCenter.x = point.x + width/2;
     spriteCenter.y = point.y + height/2;
     let result = false;
-    // console.log(spriteCenter);
-
     background.rooms.forEach((room) => {
       if (room.containPoint(spriteCenter, width, height)) {
-        // console.log(`room: centerX = ${room.centerX}, centerY = ${room.centerY}`);
         result = true;
       }
     });
-    // console.log("checkWay return false");
+    background.corridors.forEach((corridor) => {
+      // console.log("enter background.corridors.forEach");
+      if (corridor.containPoint(spriteCenter, width, height)) {
+        // console.log("result true");
+        result = true;
+      }
+    });
     return result;
   }
 
